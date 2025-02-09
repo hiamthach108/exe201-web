@@ -21,6 +21,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     queryFn: () => {
       return getUserProfile();
     },
+    retry: false,
   });
 
   const refreshTokenMutation = useRefreshTokenMutation({
