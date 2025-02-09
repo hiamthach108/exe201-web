@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { AppStore, AuthStore, ConversationStore } from './store-type';
 import { IUser } from '@/features/user';
 import { IFilterScope, IMessage } from '@/features/conversations';
-import { IEvent } from '@/features/event';
 export const useAppStore = create<AppStore>((set) => ({
   isNavExpanded: true,
   setNavExpanded: (isNavExpanded: boolean) => set({ isNavExpanded }),
@@ -28,11 +27,9 @@ export const useConversationStore = create<ConversationStore>((set) => ({
   eventFilter: null,
   setFilterScope: (filterScope: Partial<IFilterScope> | null) => set({ filterScope }),
   setMessages: (messages: IMessage[]) => set({ messages }),
-  setEventFilter: (eventFilter: Partial<IEvent> | null) => set({ eventFilter }),
 
   resetFilter: () =>
     set({
       filterScope: null,
-      eventFilter: null,
     }),
 }));

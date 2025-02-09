@@ -6,16 +6,8 @@ import {
   IConversationListRes,
   IConversationMessagesRes,
   ICreateConversationRes,
-  IMessageMetadata,
 } from '../types';
 import { useQuery, useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { getTopics } from '@/features/topic';
-import { getEras } from '@/features/era';
-import { getArtifacts } from '@/features/artifacts';
-import { getPlaces } from '@/features/places';
-import { getFigures } from '@/features/figure';
-import { getEvents } from '@/features/event';
-import { IPagination } from '@/common/types';
 
 export const getConversations = async (): Promise<IConversationItem[]> => {
   try {
@@ -132,34 +124,6 @@ export const useDeleteConversationMutation = (options?: UseMutationOptions<void,
     mutationKey: ['deleteConversation'],
     mutationFn: deleteConversation,
     ...options,
-  });
-};
-
-export const useGetListRelatedItems = (type: keyof IMessageMetadata, ids: string[]) => {
-  return useQuery({
-    queryKey: [type, ids],
-    queryFn: () => {
-      const fetchData = () => {
-        switch (type) {
-          case 'topic':
-            return getTopics({ page: 1, pageSize: 10, ids });
-          case 'era':
-            return getEras({ page: 1, pageSize: 10, ids });
-          case 'artifact':
-            return getArtifacts({ page: 1, pageSize: 10, ids });
-          case 'place':
-            return getPlaces({ page: 1, pageSize: 10, ids });
-          case 'figure':
-            return getFigures({ page: 1, pageSize: 10, ids });
-          case 'event':
-            return getEvents({ page: 1, pageSize: 10, ids });
-          default:
-            throw new Error('Invalid type');
-        }
-      };
-      return fetchData() as Promise<IPagination<any>>;
-    },
-    // enabled: !!data.page || !!data.search || !!data.size,
   });
 };
 

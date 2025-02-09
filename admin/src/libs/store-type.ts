@@ -1,5 +1,4 @@
 import { IFilterScope, IMessage } from '@/features/conversations';
-import { IEvent } from '@/features/event';
 import { IUser } from '@/features/user';
 
 export interface AppStore {
@@ -19,10 +18,8 @@ export interface AuthStore {
 
 export interface ConversationStore {
   filterScope: Partial<IFilterScope> | null;
-  eventFilter: Partial<IEvent> | null;
   messages: IMessage[];
   setFilterScope: (filterScope: Partial<IFilterScope> | null) => void;
-  setEventFilter: (eventFilter: Partial<IEvent> | null) => void;
   setMessages: (messages: IMessage[]) => void;
   resetFilter: () => void;
 }

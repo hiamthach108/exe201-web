@@ -10,7 +10,6 @@ import ConversationMessageList from '../ConversationMessage';
 import ConversationInput from '../ConversationInput';
 import NewConversation from '../NewConversation';
 import { Spinner, useDisclosure } from '@nextui-org/react';
-import MessageFilterScopeModal from '../MessageFilterScopeModal';
 import { useAuthStore, useConversationStore } from '@/libs/store';
 import { v4 as uuidv4 } from 'uuid';
 import queryClient from '@/libs/tanstack-query';
@@ -158,7 +157,6 @@ export default function ConversationDetail() {
           <p className="font-medium">HISVN AI có khả năng nhầm lẫn. Hãy kiểm tra kỹ thông tin.</p>
         </div>
       </div>
-      <MessageFilterScopeModal state={manageFilterModal} />
     </div>
   );
 }
