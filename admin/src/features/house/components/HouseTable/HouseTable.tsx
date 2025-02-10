@@ -1,3 +1,4 @@
+import { parseMetadata } from '@/common/helpers/str';
 import { IPagination, NextUIColor, TableHeaderItem } from '@/common/types';
 import { HouseStatusEnum, IHouse, useGetHouses } from '@/features/house'; // Updated imports
 import {
@@ -18,6 +19,7 @@ import {
   TableRow,
   User,
 } from '@nextui-org/react';
+import get from 'lodash/get';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CiImageOff } from 'react-icons/ci';
 import { IoIosSearch } from 'react-icons/io';
@@ -85,7 +87,7 @@ export default function HouseTable({
               avatarProps={{
                 radius: 'lg',
                 size: 'lg',
-                src: house.metadata,
+                src: get(parseMetadata(house.metadata), 'thumbnail', ''),
                 className: 'flex-shrink-0',
                 fallback: <CiImageOff />,
               }}
@@ -184,7 +186,7 @@ export default function HouseTable({
         onSortChange={setSortDescriptor}
         aria-label="House table with dynamic content"
         bottomContent={
-          houses && houses.data.totalPage > 0 ? (
+          houses && houses.data.total > 0 ? (
             <div className="flex w-full justify-center gap-6">
               <Pagination
                 isCompact
@@ -192,7 +194,7 @@ export default function HouseTable({
                 showShadow
                 color="primary"
                 page={page}
-                total={houses.data.totalPage}
+                total={Math.ceil(houses.data.total / pageSize) > 0 ? Math.ceil(houses.data.total / pageSize) : 1}
                 onChange={(page) => setPage(page)}
               />
             </div>

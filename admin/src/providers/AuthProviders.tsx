@@ -35,7 +35,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     },
   });
 
-  const isLoading = refreshTokenMutation.isPending || profileLoading;
+  const isLoading = profileLoading;
 
   useLayoutEffect(() => {
     if (cookies[COOKIE_ACCESS_TK]) {

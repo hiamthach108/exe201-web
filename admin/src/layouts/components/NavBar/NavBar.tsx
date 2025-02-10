@@ -11,9 +11,8 @@ export default function NavBar({ children }: { children: React.ReactNode[] | Rea
   return (
     <nav className={twMerge('flex flex-col flex-1 p-4 bg-[#18181B] h-full w-full transition-width')}>
       <div className="flex justify-between items-center mb-8">
-        <div className="flex gap-2 px-2 items-center">
+        <div className="flex-1 flex gap-2 px-2 items-center justify-center">
           <Logo />
-          <h1 className="font-bold">HISVN AI</h1>
         </div>
         <Button className="text-default-500" isIconOnly variant="light" onClick={toggleNav}>
           <TbLayoutSidebarRightExpand size={24} />

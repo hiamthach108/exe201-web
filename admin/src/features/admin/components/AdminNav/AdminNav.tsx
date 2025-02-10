@@ -9,8 +9,8 @@ const LIST_NAV = [
     id: 'manage-house',
   },
   {
-    name: 'Manage Event',
-    id: 'manage-event',
+    name: 'Manage User',
+    id: 'manage-user',
   },
 ];
 
