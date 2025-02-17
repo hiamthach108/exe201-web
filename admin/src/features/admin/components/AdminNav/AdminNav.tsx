@@ -12,6 +12,18 @@ const LIST_NAV = [
     name: 'Manage User',
     id: 'manage-user',
   },
+  {
+    name: 'Manage Plan',
+    id: 'manage-plan'
+  },
+  {
+    name: 'Manage Order',
+    id: 'manage-order'
+  },
+  {
+    name: 'Report',
+    id: 'report'
+  }
 ];
 
 export default function AdminNav() {
