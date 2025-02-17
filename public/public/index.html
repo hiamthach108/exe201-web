@@ -10,60 +10,251 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
-  <title>Home Sweet Home</title>
+  <title>HoHo Home Sweet Home - Nền tảng kết nối thuê nhà thông minh</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
+      color: #333;
+      line-height: 1.6;
     }
 
     .container {
-      padding: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    img {
+    .hero {
+      background: linear-gradient(135deg, #304FFE 0%, #15B2D3 100%);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .hero-logo {
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      object-fit: cover;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .about {
+      padding: 80px 0;
+      background: #f9f9f9;
+    }
+
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-image {
+      flex: 1;
+    }
+
+    .about-image img {
       width: 100%;
-      aspect-ratio: 1/1;
-      max-width: 400px;
-      max-height: 400px;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
 
-    h1 {
+    .contact-section {
+      padding: 80px 0;
+      background: #ffffff;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-item i {
+      font-size: 24px;
+      color: #304FFE;
+      width: 40px;
+    }
+
+    .contact-item a {
       color: #333;
-      font-size: 28px;
+      text-decoration: none;
     }
 
-    button {
-      padding: 10px 20px;
-      background-color: #304FFE;
-      color: #fff;
-      border: none;
-      border-radius: 32px;
-      cursor: pointer;
-      width: 100%;
-      max-width: 360px;
-      padding: 16px 32px;
-      font-family: 'Poppins', sans-serif;
+    .contact-item a:hover {
+      color: #304FFE;
     }
 
-    button:hover {
-      background-color: #0056b3;
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 40px;
+      background: #304FFE;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+    }
 
+    .download-btn i {
+      margin-right: 10px;
+      font-size: 24px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 60px 0;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .feature-card i {
+      font-size: 40px;
+      color: #304FFE;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.2rem;
+      }
+
+      .hero-logo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .about-content {
+        flex-direction: column;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="container">
-    <img src="./logo.jpg" alt="Home Sweet Home">
-  
-    <h1>Download Our App</h1>
-  
-    <a href="./app.apk" download>
-      <button>Click to install</button>
-    </a>
-  </main>
+  <section class="hero">
+    <div class="container">
+      <img src="./logo.jpg" alt="HoHo Home Sweet Home Logo" class="hero-logo">
+      <h1>HoHo Home Sweet Home</h1>
+      <p>Nền tảng kết nối thuê nhà thông minh</p>
+      <p>Nhanh chóng - An toàn - Minh bạch</p>
+      <a href="./app.apk" class="download-btn" download>
+        <i class="fas fa-download"></i>
+        Tải ứng dụng ngay
+      </a>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2>Về Chúng Tôi</h2>
+          <p>HoHo Home Sweet Home là nền tảng kết nối người thuê nhà và chủ nhà một cách nhanh chóng, an toàn và minh bạch. Chúng tôi đơn giản hóa quy trình thuê nhà với các tính năng hiện đại và đảm bảo an toàn cho cả hai bên.</p>
+          <div class="features">
+            <div class="feature-card">
+              <i class="fas fa-user-check"></i>
+              <h3>Xác Minh Thông Tin</h3>
+              <p>Thông tin người thuê và chủ nhà được xác minh kỹ càng</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-file-contract"></i>
+              <h3>Hợp Đồng Điện Tử</h3>
+              <p>Ký kết hợp đồng trực tuyến an toàn và nhanh chóng</p>
+            </div>
+            <div class="feature-card">
+              <i class="fas fa-shield-alt"></i>
+              <h3>Đảm Bảo Tiền Cọc</h3>
+              <p>Bảo vệ tiền cọc an toàn cho cả hai bên</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <h2>Liên Hệ Với Chúng Tôi</h2>
+      <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
+      
+      <div class="contact-grid">
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <a href="tel:+84123456789">+84 123 456 789</a>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:contact@homesweethome.com">contact@homesweethome.com</a>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-facebook"></i>
+          <a href="https://www.facebook.com/profile.php?id=61572200970129" target="_blank">HoHo Home Sweet Home</a>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-instagram"></i>
+          <a href="https://www.threads.net/@hoho_home201" target="_blank">@hoho_home201</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
