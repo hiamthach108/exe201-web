@@ -135,7 +135,7 @@ const AdminDashboard = () => {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {houseData.map((entry, index) => (
+                  {houseData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
