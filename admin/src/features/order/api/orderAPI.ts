@@ -1,5 +1,5 @@
 import { IPaginationFilter } from '@/common/types';
-import { GetOrdersResp, IOrder } from '../types';
+import { CreateOrderReq, CreateOrderResp, GetOrdersResp, IOrder } from '../types';
 import * as httpRequest from '@/libs/axios';
 import { useMutation, UseMutationOptions, useQuery } from '@tanstack/react-query';
 
@@ -14,9 +14,9 @@ export const getOrders = async (filter: IPaginationFilter<Partial<IOrder>>): Pro
   }
 };
 
-export const createOrder = async (data: Partial<IOrder>) => {
+export const createOrder = async (data: CreateOrderReq): Promise<CreateOrderResp> => {
   try {
-    const response = await httpRequest.post('/orders', data);
+    const response = await httpRequest.post('/payment/orders', data);
     return response;
   } catch (error) {
     throw new Error(error as any);
@@ -48,7 +48,7 @@ export const useGetOrders = (filter: IPaginationFilter<Partial<IOrder>>) => {
   });
 };
 
-export const useCreateOrderMutation = (options?: UseMutationOptions<any, Error, Partial<IOrder>>) => {
+export const useCreateOrderMutation = (options?: UseMutationOptions<any, Error, CreateOrderReq>) => {
   return useMutation({
     mutationKey: ['createOrder'],
     mutationFn: createOrder,

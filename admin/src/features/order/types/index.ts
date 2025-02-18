@@ -10,6 +10,20 @@ export interface IOrder extends CommonModel {
   provider: PaymentProviderEnum;
   expiredAt: string;
   orderCode: number;
+  orderData?: OrderData;
+}
+
+export type OrderData = {
+  accountNumber: string;
+  amount: number;
+  description: string;
+  orderCode: number;
+  currency: string;
+  paymentLinkId: string;
+  status: string;
+  expiredAt: string | null;
+  checkoutUrl: string;
+  qrCode: string;
 }
 
 
@@ -43,3 +57,13 @@ export enum PaymentProviderEnum
 export type GetOrdersResp = IResponse & {
   data: IPagination<IOrder>;
 };
+
+export type CreateOrderReq = {
+  planId: string;
+  returnUrl: string;
+  cancelUrl: string;
+}
+
+export type CreateOrderResp = IResponse<{
+  order: IOrder
+}>

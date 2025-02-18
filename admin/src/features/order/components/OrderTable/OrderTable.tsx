@@ -104,8 +104,12 @@ export default function OrderTable({
               }
             </Chip>
           );
+        case 'createdAt':
+          return cellValue ? new Date(cellValue as string).toLocaleString() : '';
+        case 'amount':
+          return cellValue ? `$${Number(cellValue).toLocaleString()}` : '';
         default:
-          return cellValue;
+          return cellValue ? String(cellValue) : '';
       }
     },
     [onDelete, onEdit, selectedKeys],

@@ -1,6 +1,9 @@
 import { Card, CardBody, Button, Avatar, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { FiUsers, FiHome, FiDollarSign, FiAward } from 'react-icons/fi';
+import { createOrder } from '@/features/order';
+
+import get from 'lodash/get'
 
 interface Booking {
   id: number;
@@ -62,7 +65,23 @@ const AdminDashboard = () => {
         <h1 className="text-2xl font-bold">Dashboard Overview</h1>
         <div className="flex gap-3">
           <Button color="primary" variant="flat">Download Report</Button>
-          <Button color="primary">View All Analytics</Button>
+          <Button color="primary"
+            onClick={() => {
+              const domain = window.location.origin;
+
+              createOrder({
+                "planId": "f5752a23-05fb-496a-bc04-518618c8b824",
+                "returnUrl": `${domain}/manage-order`,
+                "cancelUrl": `${domain}/manage-order` 
+              }).then((res) => {
+                console.log('Order', res)
+                const  redirectUrl = get(res, 'data.order.orderData.checkoutUrl', '')
+                if (redirectUrl) {
+                  window.location.href = redirectUrl
+                }
+              })
+            }}
+          >Subscribe</Button>
         </div>
       </div>
 
