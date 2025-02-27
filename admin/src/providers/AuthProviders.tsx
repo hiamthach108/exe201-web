@@ -9,7 +9,7 @@ import { useCookies } from 'react-cookie';
 import { LoaderIcon } from 'react-hot-toast';
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { setUser } = useAuthStore();
+  const { setUser, setAccessToken } = useAuthStore();
   const [cookies, , removeCookie] = useCookies([COOKIE_ACCESS_TK, COOKIE_REFRESH_TK, COOKIE_USER_ID]);
 
   const {
@@ -40,6 +40,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   useLayoutEffect(() => {
     if (cookies[COOKIE_ACCESS_TK]) {
       refetchProfile();
+      setAccessToken(cookies[COOKIE_ACCESS_TK]);
     } else {
       if (cookies[COOKIE_REFRESH_TK] && cookies[COOKIE_USER_ID]) {
         refreshTokenMutation.mutate({ refreshToken: cookies[COOKIE_REFRESH_TK], userId: cookies[COOKIE_USER_ID] });

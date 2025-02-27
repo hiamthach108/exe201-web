@@ -12,8 +12,11 @@ export interface AppStore {
 export interface AuthStore {
   user: IUser | null;
   setUser: (user: IUser | null) => void;
+  accessToken?: string;
+  setAccessToken: (accessToken: string) => void;
   login: (user: IUser) => void;
   logout: () => void;
+
 }
 
 export interface ConversationStore {

@@ -2,8 +2,13 @@ import { Card, CardBody, Button, Avatar, Table, TableHeader, TableColumn, TableB
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { FiUsers, FiHome, FiDollarSign, FiAward } from 'react-icons/fi';
 import { createOrder } from '@/features/order';
+import toast from 'react-hot-toast';
+import { HubConnectionBuilder, LogLevel, HttpTransportType } from "@microsoft/signalr";
+
 
 import get from 'lodash/get'
+import { useEffect } from 'react';
+import { useAuthStore } from '@/libs/store';
 
 interface Booking {
   id: number;
@@ -14,6 +19,9 @@ interface Booking {
 }
 
 const AdminDashboard = () => {
+
+  const { accessToken } = useAuthStore()
+
   const stats = [
     { title: 'Total Users', value: '12', change: '+12.5%', icon: <FiUsers className="w-6 h-6" />, color: 'primary' },
     { title: 'Total Houses', value: '36', change: '+5.2%', icon: <FiHome className="w-6 h-6" />, color: 'success' },
@@ -58,6 +66,31 @@ const AdminDashboard = () => {
   ];
 
   const COLORS = ['#0088FE', '#00C49F'];
+
+  useEffect(() => {
+   const connection = new HubConnectionBuilder()
+    .withUrl(`http://localhost:5000/chat`, {
+      accessTokenFactory: () => accessToken ?? "", // Add your auth token here
+      skipNegotiation: true,  // skipNegotiation as we specify WebSockets
+      transport: HttpTransportType.WebSockets
+    })
+    .withAutomaticReconnect()
+    .configureLogging(LogLevel.Information)
+    .build();
+
+    connection.start().then(() => {
+      toast.success('Connection established! 🎉');
+    }).catch(err => {
+      console.log(err)
+      toast.error('Error establishing connection 😢');
+    });
+
+    connection.on("ReceiveMessage", (user, message) => {
+      console.log('ReceiveMessage', user, message)
+      toast.success(`${user}: ${message}`);
+    });
+
+  }, [])
 
   return (
     <div className="p-6 space-y-6">
