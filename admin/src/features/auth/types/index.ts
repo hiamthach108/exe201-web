@@ -1,11 +1,10 @@
-
 import { IResponse } from '@/common/types';
 
 export interface IGoogleAuthUrlResponse extends IResponse {
   data: {
     token: string;
     redirectLink: string;
-  }
+  };
 }
 
 export interface IVerifyTokenResponse extends IResponse {
@@ -16,7 +15,7 @@ export interface IVerifyTokenResponse extends IResponse {
     refreshToken: string;
     accessTokenExpAt: number;
     refreshTokenExpAt: number;
-  }
+  };
 }
 
 export interface IRefreshTokenRequest {
@@ -28,5 +27,5 @@ export interface IRefreshTokenResponse extends IResponse {
   data: {
     accessToken: string;
     accessTokenExpAt: number;
-  }
+  };
 }

@@ -16,7 +16,6 @@ export interface AuthStore {
   setAccessToken: (accessToken: string) => void;
   login: (user: IUser) => void;
   logout: () => void;
-
 }
 
 export interface ConversationStore {

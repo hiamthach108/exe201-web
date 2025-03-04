@@ -1,5 +1,30 @@
-import { Card, CardBody, Button, Avatar, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import {
+  Card,
+  CardBody,
+  Button,
+  Avatar,
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from '@nextui-org/react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+} from 'recharts';
 import { FiUsers, FiHome, FiDollarSign, FiAward } from 'react-icons/fi';
 
 import { useQuery } from '@tanstack/react-query';
@@ -17,27 +42,49 @@ interface Booking {
 }
 
 const AdminDashboard = () => {
-
   const { data: overviewData, isLoading: overviewLoading } = useQuery({
     queryKey: ['overview'],
     queryFn: async () => {
-      const data = await getOverview()
+      const data = await getOverview();
 
-      return data.data
-    }
-  })
+      return data.data;
+    },
+  });
 
   const stats = useMemo(() => {
-    if (!overviewData || !overviewData.data) return []
+    if (!overviewData || !overviewData.data) return [];
 
     return [
-      { title: 'Total Users', value: overviewData.data.totalUsers, change: '+12.5%', icon: <FiUsers className="w-6 h-6" />, color: 'primary' },
-      { title: 'Total Houses', value: overviewData.data.totalHouses, change: '+5.2%', icon: <FiHome className="w-6 h-6" />, color: 'success' },
-      { title: 'Revenue', value: moneyTextFormat(overviewData.data.totalRevenue) + 'đ', change: '+8.1%', icon: <FiDollarSign className="w-6 h-6" />, color: 'secondary' },
-      { title: 'Subscription', value: overviewData.data?.totalSubscriptions, change: '+20%', icon: <FiAward className="w-6 h-6" />, color: 'warning' },
+      {
+        title: 'Total Users',
+        value: overviewData.data.totalUsers,
+        change: '+12.5%',
+        icon: <FiUsers className="w-6 h-6" />,
+        color: 'primary',
+      },
+      {
+        title: 'Total Houses',
+        value: overviewData.data.totalHouses,
+        change: '+5.2%',
+        icon: <FiHome className="w-6 h-6" />,
+        color: 'success',
+      },
+      {
+        title: 'Revenue',
+        value: moneyTextFormat(overviewData.data.totalRevenue) + 'đ',
+        change: '+8.1%',
+        icon: <FiDollarSign className="w-6 h-6" />,
+        color: 'secondary',
+      },
+      {
+        title: 'Subscription',
+        value: overviewData.data?.totalSubscriptions,
+        change: '+20%',
+        icon: <FiAward className="w-6 h-6" />,
+        color: 'warning',
+      },
     ];
-
-  }, [overviewData])
+  }, [overviewData]);
 
   // Sample data for new users chart
   const newUsersData = [
@@ -68,25 +115,30 @@ const AdminDashboard = () => {
 
   // Recent bookings data
   const recentBookings: Booking[] = [
-    { id: 1, user: 'Thành Nhân', house: 'Căn hộ Quận 2', date: '2025-02-17',  amount: '10,000,000' },
-    { id: 2, user: 'Văn Hùng', house: 'Căn hộ Quận 3', date: '2025-02-17',  amount: '8,500,000' },
+    { id: 1, user: 'Thành Nhân', house: 'Căn hộ Quận 2', date: '2025-02-17', amount: '10,000,000' },
+    { id: 2, user: 'Văn Hùng', house: 'Căn hộ Quận 3', date: '2025-02-17', amount: '8,500,000' },
     { id: 3, user: 'Văn A', house: 'Nhà trọ Thủ Đức', date: '2025-02-16', amount: '4,000,000' },
-    { id: 4, user: 'Vân Anh', house: 'Nhà trung tâm thành phố', date: '2025-02-16',  amount: '6,900,000' },
-    { id: 5, user: 'Văn Thanh', house: 'Nhà Gò Vấp', date: '2025-02-15',  amount: '3,500,000' },
+    { id: 4, user: 'Vân Anh', house: 'Nhà trung tâm thành phố', date: '2025-02-16', amount: '6,900,000' },
+    { id: 5, user: 'Văn Thanh', house: 'Nhà Gò Vấp', date: '2025-02-15', amount: '3,500,000' },
   ];
 
   const COLORS = ['#0088FE', '#00C49F'];
 
-  if (overviewLoading) return <div className='min-h-[80vh] w-full justify-center items-center'>
-    <LoaderIcon/>
-  </div>
+  if (overviewLoading)
+    return (
+      <div className="min-h-[80vh] w-full justify-center items-center">
+        <LoaderIcon />
+      </div>
+    );
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Dashboard Overview</h1>
         <div className="flex gap-3">
-          <Button color="primary" variant="flat">Download Report</Button>
+          <Button color="primary" variant="flat">
+            Download Report
+          </Button>
         </div>
       </div>
 
@@ -101,9 +153,7 @@ const AdminDashboard = () => {
                   {stat.change} this month
                 </p>
               </div>
-              <div className={`p-3 rounded-lg bg-${stat.color}/20`}>
-                {stat.icon}
-              </div>
+              <div className={`p-3 rounded-lg bg-${stat.color}/20`}>{stat.icon}</div>
             </CardBody>
           </Card>
         ))}
@@ -174,7 +224,9 @@ const AdminDashboard = () => {
           <CardBody>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-semibold">Recent Posts</h3>
-              <Button size="sm" variant="flat">View All</Button>
+              <Button size="sm" variant="flat">
+                View All
+              </Button>
             </div>
             <Table aria-label="Recent bookings table">
               <TableHeader>
@@ -182,7 +234,6 @@ const AdminDashboard = () => {
                 <TableColumn>HOUSE</TableColumn>
                 <TableColumn>DATE</TableColumn>
                 <TableColumn>PRICE</TableColumn>
-                
               </TableHeader>
               <TableBody>
                 {recentBookings.map((booking) => (

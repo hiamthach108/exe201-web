@@ -17,4 +17,4 @@ export const popupWindow = (url: string, title: string, w: number, h: number) =>
 
 export const moneyTextFormat = (value: number) => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+};

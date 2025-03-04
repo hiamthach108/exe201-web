@@ -50,7 +50,7 @@ export default function OrderTable({
       { key: 'amount', label: 'Price' },
       { key: 'description', label: 'Description' },
       { key: 'status', label: 'Status' },
-      {key: 'provider', label: 'Provider' },
+      { key: 'provider', label: 'Provider' },
       { key: 'createdAt', label: 'Created At', sortable: true },
     ],
     [],

@@ -1,5 +1,5 @@
-import httpRequest from "@/libs/axios";
-import { GetOverviewResp } from "../types";
+import httpRequest from '@/libs/axios';
+import { GetOverviewResp } from '../types';
 
 export const getOverview = async (): Promise<GetOverviewResp> => {
   try {
@@ -9,4 +9,3 @@ export const getOverview = async (): Promise<GetOverviewResp> => {
     throw new Error(error as any);
   }
 };
-

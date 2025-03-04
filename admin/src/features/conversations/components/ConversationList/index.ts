@@ -1,3 +1,3 @@
-import ConversationList from "./ConversationList";
+import ConversationList from './ConversationList';
 
 export default ConversationList;

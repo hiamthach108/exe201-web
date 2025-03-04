@@ -1,5 +1,4 @@
-export enum UserStatusEnum
-{
+export enum UserStatusEnum {
   NotVerified,
   Active,
   Disabled,

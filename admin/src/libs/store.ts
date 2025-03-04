@@ -18,11 +18,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
   setAccessToken: (accessToken?: string) => {
-    set({accessToken})
+    set({ accessToken });
   },
   login: (user: IUser) => set({ user }),
   logout: () => set({ user: null }),
-
 }));
 
 export const useConversationStore = create<ConversationStore>((set) => ({

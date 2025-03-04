@@ -24,34 +24,30 @@ export type OrderData = {
   expiredAt: string | null;
   checkoutUrl: string;
   qrCode: string;
-}
+};
 
-
-export enum PaymentStatusEnum
-{
+export enum PaymentStatusEnum {
   Pending,
   Success,
   Failed,
-  Cancelled
+  Cancelled,
 }
 
-export enum PaymentMethodEnum
-{
+export enum PaymentMethodEnum {
   CreditCard,
   BankTransfer,
   MoMo,
   PayPal,
-  VNPay
+  VNPay,
 }
 
-export enum PaymentProviderEnum
-{
+export enum PaymentProviderEnum {
   None,
   PayOS,
   ZaloPay,
   MoMo,
   VNPay,
-  PayPal
+  PayPal,
 }
 
 export type GetOrdersResp = IResponse & {
@@ -62,8 +58,8 @@ export type CreateOrderReq = {
   planId: string;
   returnUrl: string;
   cancelUrl: string;
-}
+};
 
 export type CreateOrderResp = IResponse<{
-  order: IOrder
-}>
+  order: IOrder;
+}>;

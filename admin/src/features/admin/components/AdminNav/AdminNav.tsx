@@ -14,16 +14,16 @@ const LIST_NAV = [
   },
   {
     name: 'Manage Plan',
-    id: 'manage-plan'
+    id: 'manage-plan',
   },
   {
     name: 'Manage Order',
-    id: 'manage-order'
+    id: 'manage-order',
   },
   {
     name: 'Report',
-    id: 'report'
-  }
+    id: 'report',
+  },
 ];
 
 export default function AdminNav() {

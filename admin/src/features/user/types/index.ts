@@ -1,4 +1,4 @@
-import { UserStatusEnum } from "@/common/enum/user";
+import { UserStatusEnum } from '@/common/enum/user';
 
 export interface IUser {
   id: string;
