@@ -1,14 +1,12 @@
 import { Card, CardBody, Button, Avatar, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { FiUsers, FiHome, FiDollarSign, FiAward } from 'react-icons/fi';
-import { createOrder } from '@/features/order';
-import toast from 'react-hot-toast';
-import { HubConnectionBuilder, LogLevel, HttpTransportType } from "@microsoft/signalr";
 
-
-import get from 'lodash/get'
-import { useEffect } from 'react';
-import { useAuthStore } from '@/libs/store';
+import { useQuery } from '@tanstack/react-query';
+import { getOverview } from '../api';
+import { useMemo } from 'react';
+import { LoaderIcon } from 'react-hot-toast';
+import { moneyTextFormat } from '@/libs/utils';
 
 interface Booking {
   id: number;
@@ -20,14 +18,26 @@ interface Booking {
 
 const AdminDashboard = () => {
 
-  const { accessToken } = useAuthStore()
+  const { data: overviewData, isLoading: overviewLoading } = useQuery({
+    queryKey: ['overview'],
+    queryFn: async () => {
+      const data = await getOverview()
 
-  const stats = [
-    { title: 'Total Users', value: '12', change: '+12.5%', icon: <FiUsers className="w-6 h-6" />, color: 'primary' },
-    { title: 'Total Houses', value: '36', change: '+5.2%', icon: <FiHome className="w-6 h-6" />, color: 'success' },
-    { title: 'Revenue', value: '10,000đ', change: '+8.1%', icon: <FiDollarSign className="w-6 h-6" />, color: 'secondary' },
-    { title: 'Subscription', value: '4', change: '+40%', icon: <FiAward className="w-6 h-6" />, color: 'warning' },
-  ];
+      return data.data
+    }
+  })
+
+  const stats = useMemo(() => {
+    if (!overviewData || !overviewData.data) return []
+
+    return [
+      { title: 'Total Users', value: overviewData.data.totalUsers, change: '+12.5%', icon: <FiUsers className="w-6 h-6" />, color: 'primary' },
+      { title: 'Total Houses', value: overviewData.data.totalHouses, change: '+5.2%', icon: <FiHome className="w-6 h-6" />, color: 'success' },
+      { title: 'Revenue', value: moneyTextFormat(overviewData.data.totalRevenue) + 'đ', change: '+8.1%', icon: <FiDollarSign className="w-6 h-6" />, color: 'secondary' },
+      { title: 'Subscription', value: overviewData.data?.totalSubscriptions, change: '+20%', icon: <FiAward className="w-6 h-6" />, color: 'warning' },
+    ];
+
+  }, [overviewData])
 
   // Sample data for new users chart
   const newUsersData = [
@@ -67,30 +77,9 @@ const AdminDashboard = () => {
 
   const COLORS = ['#0088FE', '#00C49F'];
 
-  useEffect(() => {
-   const connection = new HubConnectionBuilder()
-    .withUrl(`http://localhost:5000/chat`, {
-      accessTokenFactory: () => accessToken ?? "", // Add your auth token here
-      skipNegotiation: true,  // skipNegotiation as we specify WebSockets
-      transport: HttpTransportType.WebSockets
-    })
-    .withAutomaticReconnect()
-    .configureLogging(LogLevel.Information)
-    .build();
-
-    connection.start().then(() => {
-      toast.success('Connection established! 🎉');
-    }).catch(err => {
-      console.log(err)
-      toast.error('Error establishing connection 😢');
-    });
-
-    connection.on("ReceiveMessage", (user, message) => {
-      console.log('ReceiveMessage', user, message)
-      toast.success(`${user}: ${message}`);
-    });
-
-  }, [])
+  if (overviewLoading) return <div className='min-h-[80vh] w-full justify-center items-center'>
+    <LoaderIcon/>
+  </div>
 
   return (
     <div className="p-6 space-y-6">
@@ -98,23 +87,6 @@ const AdminDashboard = () => {
         <h1 className="text-2xl font-bold">Dashboard Overview</h1>
         <div className="flex gap-3">
           <Button color="primary" variant="flat">Download Report</Button>
-          <Button color="primary"
-            onClick={() => {
-              const domain = window.location.origin;
-
-              createOrder({
-                "planId": "f5752a23-05fb-496a-bc04-518618c8b824",
-                "returnUrl": `${domain}/manage-order`,
-                "cancelUrl": `${domain}/manage-order` 
-              }).then((res) => {
-                console.log('Order', res)
-                const  redirectUrl = get(res, 'data.order.orderData.checkoutUrl', '')
-                if (redirectUrl) {
-                  window.location.href = redirectUrl
-                }
-              })
-            }}
-          >Subscribe</Button>
         </div>
       </div>
 
