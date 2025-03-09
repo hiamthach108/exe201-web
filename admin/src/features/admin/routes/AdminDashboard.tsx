@@ -10,28 +10,11 @@ import {
   TableRow,
   TableCell,
 } from '@nextui-org/react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-} from 'recharts';
-import { FiUsers, FiHome, FiDollarSign, FiAward } from 'react-icons/fi';
+import { Tooltip, Legend, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-import { useQuery } from '@tanstack/react-query';
-import { getOverview } from '../api';
-import { useMemo } from 'react';
-import { LoaderIcon } from 'react-hot-toast';
-import { moneyTextFormat } from '@/libs/utils';
+import AdminOverview from '../components/AdminOverview';
+import AdminGrowth from '../components/AdminGrowth';
+import AdminWeeklyPerformance from '../components/AdminWeekyPerformance/AdminWeeklyPerformance';
 
 interface Booking {
   id: number;
@@ -42,71 +25,6 @@ interface Booking {
 }
 
 const AdminDashboard = () => {
-  const { data: overviewData, isLoading: overviewLoading } = useQuery({
-    queryKey: ['overview'],
-    queryFn: async () => {
-      const data = await getOverview();
-
-      return data.data;
-    },
-  });
-
-  const stats = useMemo(() => {
-    if (!overviewData || !overviewData.data) return [];
-
-    return [
-      {
-        title: 'Total Users',
-        value: overviewData.data.totalUsers,
-        change: '+12.5%',
-        icon: <FiUsers className="w-6 h-6" />,
-        color: 'primary',
-      },
-      {
-        title: 'Total Houses',
-        value: overviewData.data.totalHouses,
-        change: '+5.2%',
-        icon: <FiHome className="w-6 h-6" />,
-        color: 'success',
-      },
-      {
-        title: 'Revenue',
-        value: moneyTextFormat(overviewData.data.totalRevenue) + 'đ',
-        change: '+8.1%',
-        icon: <FiDollarSign className="w-6 h-6" />,
-        color: 'secondary',
-      },
-      {
-        title: 'Subscription',
-        value: overviewData.data?.totalSubscriptions,
-        change: '+20%',
-        icon: <FiAward className="w-6 h-6" />,
-        color: 'warning',
-      },
-    ];
-  }, [overviewData]);
-
-  // Sample data for new users chart
-  const newUsersData = [
-    { name: 'Jan', users: 400, revenue: 2400 },
-    { name: 'Feb', users: 700, revenue: 3600 },
-    { name: 'Mar', users: 1200, revenue: 4800 },
-    { name: 'Apr', users: 1500, revenue: 6000 },
-    { name: 'May', users: 2100, revenue: 7200 },
-    { name: 'Jun', users: 2500, revenue: 8400 },
-  ];
-
-  // Sample data for daily revenue
-  const revenueData = [
-    { name: 'Mon', revenue: 1200, bookings: 15 },
-    { name: 'Tue', revenue: 1500, bookings: 20 },
-    { name: 'Wed', revenue: 2000, bookings: 25 },
-    { name: 'Thu', revenue: 1800, bookings: 18 },
-    { name: 'Fri', revenue: 2400, bookings: 30 },
-    { name: 'Sat', revenue: 3000, bookings: 35 },
-    { name: 'Sun', revenue: 2800, bookings: 28 },
-  ];
-
   // Sample data for house availability
   const houseData = [
     { name: 'Rented', value: 35 },
@@ -124,13 +42,6 @@ const AdminDashboard = () => {
 
   const COLORS = ['#0088FE', '#00C49F'];
 
-  if (overviewLoading)
-    return (
-      <div className="min-h-[80vh] w-full justify-center items-center">
-        <LoaderIcon />
-      </div>
-    );
-
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center mb-6">
@@ -142,56 +53,15 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <Card key={stat.title} className="w-full">
-            <CardBody className="flex flex-row items-center justify-between p-4">
-              <div>
-                <p className="text-sm text-default-500">{stat.title}</p>
-                <h3 className="text-2xl font-bold">{stat.value}</h3>
-                <p className={`text-sm ${stat.change.startsWith('+') ? 'text-success' : 'text-danger'}`}>
-                  {stat.change} this month
-                </p>
-              </div>
-              <div className={`p-3 rounded-lg bg-${stat.color}/20`}>{stat.icon}</div>
-            </CardBody>
-          </Card>
-        ))}
-      </div>
+      <AdminOverview />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="w-full">
-          <CardBody className="h-[400px]">
-            <h3 className="text-xl font-semibold mb-4">Growth Overview</h3>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={newUsersData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis yAxisId="left" />
-                <YAxis yAxisId="right" orientation="right" />
-                <Tooltip />
-                <Legend />
-                <Line yAxisId="left" type="monotone" dataKey="users" stroke="#8884d8" name="Users" />
-                <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="#82ca9d" name="Revenue ($)" />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardBody>
+          <AdminGrowth />
         </Card>
 
         <Card className="w-full">
-          <CardBody className="h-[400px]">
-            <h3 className="text-xl font-semibold mb-4">Weekly Performance</h3>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={revenueData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="revenue" fill="#82ca9d" name="Revenue ($)" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardBody>
+          <AdminWeeklyPerformance />
         </Card>
 
         <Card className="w-full">

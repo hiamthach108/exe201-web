@@ -8,3 +8,11 @@ export type GetOverviewResp = IResponse & {
     totalSubscriptions: number;
   };
 };
+
+export type GetGrowthsResp = IResponse<{
+  timeUnit: 'day' | 'week' | 'month';
+  data: {
+    period: string;
+    value: number;
+  }[];
+}>;
