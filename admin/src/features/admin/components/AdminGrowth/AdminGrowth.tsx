@@ -36,7 +36,14 @@ const AdminGrowth = () => {
       };
     });
 
-    return { data };
+    return {
+      data: data.sort((a, b) => {
+        const splittedA = a.period.split(' ');
+        const splittedB = b.period.split(' ');
+
+        return Number(splittedA[1]) - Number(splittedB[1]);
+      }),
+    };
   }, [revenueData, userData]);
 
   console.log(growthData);
