@@ -13,16 +13,8 @@ const LIST_NAV = [
     id: 'manage-user',
   },
   {
-    name: 'Manage Plan',
-    id: 'manage-plan',
-  },
-  {
     name: 'Manage Order',
     id: 'manage-order',
-  },
-  {
-    name: 'Report',
-    id: 'report',
   },
 ];
 
