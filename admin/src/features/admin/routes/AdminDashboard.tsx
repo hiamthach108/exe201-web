@@ -27,7 +27,7 @@ interface Booking {
 const AdminDashboard = () => {
   // Sample data for house availability
   const houseData = [
-    { name: 'Rented', value: 35 },
+    { name: 'Rented', value: 34 },
     { name: 'Available', value: 21 },
   ];
 

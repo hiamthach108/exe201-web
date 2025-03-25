@@ -1,70 +1,43 @@
 import { useQuery } from '@tanstack/react-query';
-import { getRevenueGrowth, getUserGrowth } from '../../api';
+import { getUserGrowth } from '../../api';
 import { CardBody, Skeleton } from '@nextui-org/react';
 import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line } from 'recharts';
 import { useMemo } from 'react';
 
 const AdminGrowth = () => {
-  const { data: revenueData, isLoading: revenueLoading } = useQuery({
-    queryKey: ['revenue-growth'],
-    queryFn: async () => {
-      const response = await getRevenueGrowth();
-
-      return response.data;
-    },
-  });
-
   const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: ['user-growth'],
     queryFn: async () => {
       const response = await getUserGrowth();
-
       return response.data;
     },
   });
 
   const growthData = useMemo(() => {
-    if (!revenueData || !userData) return null;
-
-    const data = revenueData.data.map((revenue) => {
-      const user = userData.data.find((user) => user.period === revenue.period);
-
-      return {
-        period: revenue.period,
-        revenue: revenue.value,
-        users: user?.value,
-      };
-    });
+    if (!userData) return null;
 
     return {
-      data: data.sort((a, b) => {
+      data: userData.data.sort((a, b) => {
         const splittedA = a.period.split(' ');
         const splittedB = b.period.split(' ');
-
         return Number(splittedA[1]) - Number(splittedB[1]);
       }),
     };
-  }, [revenueData, userData]);
+  }, [userData]);
 
-  console.log(growthData);
-
-  const isLoading = revenueLoading || userLoading;
-
-  if (isLoading) return <Skeleton className="h-[400px]" />;
+  if (userLoading) return <Skeleton className="h-[400px]" />;
 
   return (
-    <CardBody className="h-[400px]">
-      <h3 className="text-xl font-semibold mb-4">Growth Overview</h3>
+    <CardBody className="h-[440px]">
+      <h3 className="text-xl font-semibold mb-4">User Growth</h3>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={growthData?.data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="period" />
-          <YAxis yAxisId="left" />
-          <YAxis yAxisId="right" orientation="right" />
+          <XAxis dataKey="period" interval={0} />
+          <YAxis />
           <Tooltip />
           <Legend />
-          <Line yAxisId="left" type="monotone" dataKey="users" stroke="#8884d8" name="Users" />
-          <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="#82ca9d" name="Revenue" />
+          <Line type="monotone" dataKey="value" stroke="#8884d8" name="Users" />
         </LineChart>
       </ResponsiveContainer>
     </CardBody>
