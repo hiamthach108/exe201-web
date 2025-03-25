@@ -11,15 +11,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
   
   <title>HoHo Home Sweet Home - Nền tảng kết nối thuê nhà thông minh</title>
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
+    :root {
+      --primary-color: #304FFE;
+      --secondary-color: #15B2D3;
+      --text-color: #333;
+      --bg-light: #f9f9f9;
+      --transition: all 0.3s ease;
+      --success-color: #4CAF50;
+      --warning-color: #FFC107;
+      --danger-color: #FF5252;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      color: #333;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     .container {
@@ -29,35 +46,86 @@
     }
 
     .hero {
-      background: linear-gradient(135deg, #304FFE 0%, #15B2D3 100%);
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
       color: white;
-      padding: 60px 0;
+      padding: 80px 0;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(45deg);
+      top: -50%;
+      left: -50%;
+      animation: shine 8s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-50%) rotate(45deg); }
+      100% { transform: translateX(50%) rotate(45deg); }
     }
 
     .hero-logo {
-      width: 150px;
-      height: 150px;
-      border-radius: 20px;
+      width: 180px;
+      height: 180px;
+      border-radius: 30px;
       margin-bottom: 30px;
       object-fit: cover;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: var(--transition);
+    }
+
+    .hero-logo:hover {
+      transform: scale(1.05);
     }
 
     .hero h1 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       margin-bottom: 20px;
       font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
 
     .hero p {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       margin-bottom: 40px;
       font-weight: 300;
+      opacity: 0.9;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 40px;
+      background: white;
+      color: var(--primary-color);
+      text-decoration: none;
+      border-radius: 50px;
+      transition: var(--transition);
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .download-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .download-btn i {
+      margin-right: 10px;
+      font-size: 24px;
     }
 
     .about {
-      padding: 80px 0;
-      background: #f9f9f9;
+      padding: 100px 0;
+      background: var(--bg-light);
     }
 
     .about-content {
@@ -70,74 +138,10 @@
       flex: 1;
     }
 
-    .about-image {
-      flex: 1;
-    }
-
-    .about-image img {
-      width: 100%;
-      max-width: 500px;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .contact-section {
-      padding: 80px 0;
-      background: #ffffff;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 40px;
-      max-width: 800px;
-      margin: 40px auto;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 20px;
-      background: #f8f9fa;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .contact-item:hover {
-      transform: translateY(-5px);
-    }
-
-    .contact-item i {
-      font-size: 24px;
-      color: #304FFE;
-      width: 40px;
-    }
-
-    .contact-item a {
-      color: #333;
-      text-decoration: none;
-    }
-
-    .contact-item a:hover {
-      color: #304FFE;
-    }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 15px 40px;
-      background: #304FFE;
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-    }
-
-    .download-btn i {
-      margin-right: 10px;
-      font-size: 24px;
+    .about-text h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: var(--primary-color);
     }
 
     .features {
@@ -149,19 +153,139 @@
 
     .feature-card {
       text-align: center;
-      padding: 30px;
+      padding: 40px 30px;
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transform: scaleX(0);
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
     }
 
     .feature-card i {
-      font-size: 40px;
-      color: #304FFE;
+      font-size: 50px;
+      color: var(--primary-color);
       margin-bottom: 20px;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover i {
+      transform: scale(1.1);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    .contact-section {
+      padding: 100px 0;
+      background: white;
+    }
+
+    .contact-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+
+    .contact-section > p {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 50px;
+      color: #666;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 30px;
+      background: var(--bg-light);
+      border-radius: 15px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .contact-item i {
+      font-size: 28px;
+      color: var(--primary-color);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(48, 79, 254, 0.1);
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+
+    .contact-item:hover i {
+      transform: scale(1.1);
+    }
+
+    .contact-item a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .contact-item a:hover {
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 1024px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 768px) {
+      .hero {
+        padding: 60px 0;
+      }
+
       .hero h1 {
         font-size: 2.5rem;
       }
@@ -171,12 +295,13 @@
       }
 
       .hero-logo {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
       }
 
       .about-content {
         flex-direction: column;
+        text-align: center;
       }
 
       .features {
@@ -185,6 +310,344 @@
 
       .contact-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .contact-item {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .download-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+      }
+
+      .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+    }
+
+    .stats-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .stat-item {
+      padding: 20px;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .stat-number.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 1s ease;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .how-it-works {
+      padding: 100px 0;
+      background: white;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .section-title p {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 50px;
+    }
+
+    .step-item {
+      text-align: center;
+      padding: 40px 30px;
+      background: var(--bg-light);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin: 0 auto 20px;
+    }
+
+    .step-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    .testimonials {
+      padding: 100px 0;
+      background: var(--bg-light);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 4rem;
+      color: var(--primary-color);
+      opacity: 0.1;
+      font-family: serif;
+    }
+
+    .testimonial-content {
+      margin-bottom: 20px;
+      font-style: italic;
+      color: #666;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .author-info p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .cta-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .cta-content p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .store-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 15px 30px;
+      background: white;
+      color: var(--primary-color);
+      text-decoration: none;
+      border-radius: 50px;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+
+    .store-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .store-button i {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    footer {
+      padding: 60px 0 30px;
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .footer-info p {
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background: var(--primary-color);
+      transform: translateY(-5px);
+    }
+
+    .footer-links h4 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: white;
+      opacity: 0.7;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      color: var(--primary-color);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps, .testimonial-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .steps, .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
       }
     }
   </style>
@@ -192,14 +655,37 @@
 <body>
   <section class="hero">
     <div class="container">
-      <img src="./logo.jpg" alt="HoHo Home Sweet Home Logo" class="hero-logo">
-      <h1>HoHo Home Sweet Home</h1>
-      <p>Nền tảng kết nối thuê nhà thông minh</p>
-      <p>Nhanh chóng - An toàn - Minh bạch</p>
-      <a href="./app.apk" class="download-btn" download>
+      <img src="./logo.jpg" alt="HoHo Home Sweet Home Logo" class="hero-logo" data-aos="zoom-in">
+      <h1 data-aos="fade-up" data-aos-delay="200">HoHo Home Sweet Home</h1>
+      <p data-aos="fade-up" data-aos-delay="400">Nền tảng kết nối thuê nhà thông minh</p>
+      <p data-aos="fade-up" data-aos-delay="600">Nhanh chóng - An toàn - Minh bạch</p>
+      <a href="https://storage.googleapis.com/thach-personal.appspot.com/app-release.apk" class="download-btn" download data-aos="fade-up" data-aos-delay="800">
         <i class="fas fa-download"></i>
         Tải ứng dụng ngay
       </a>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item" data-aos="fade-up">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Người Dùng</div>
+        </div>
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Căn Hộ</div>
+        </div>
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Khách Hàng Hài Lòng</div>
+        </div>
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="600">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Hỗ Trợ</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -207,20 +693,20 @@
     <div class="container">
       <div class="about-content">
         <div class="about-text">
-          <h2>Về Chúng Tôi</h2>
-          <p>HoHo Home Sweet Home là nền tảng kết nối người thuê nhà và chủ nhà một cách nhanh chóng, an toàn và minh bạch. Chúng tôi đơn giản hóa quy trình thuê nhà với các tính năng hiện đại và đảm bảo an toàn cho cả hai bên.</p>
+          <h2 data-aos="fade-right">Về Chúng Tôi</h2>
+          <p data-aos="fade-right" data-aos-delay="200">HoHo Home Sweet Home là nền tảng kết nối người thuê nhà và chủ nhà một cách nhanh chóng, an toàn và minh bạch. Chúng tôi đơn giản hóa quy trình thuê nhà với các tính năng hiện đại và đảm bảo an toàn cho cả hai bên.</p>
           <div class="features">
-            <div class="feature-card">
+            <div class="feature-card" data-aos="fade-up">
               <i class="fas fa-user-check"></i>
               <h3>Xác Minh Thông Tin</h3>
               <p>Thông tin người thuê và chủ nhà được xác minh kỹ càng</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
               <i class="fas fa-file-contract"></i>
               <h3>Hợp Đồng Điện Tử</h3>
               <p>Ký kết hợp đồng trực tuyến an toàn và nhanh chóng</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
               <i class="fas fa-shield-alt"></i>
               <h3>Đảm Bảo Tiền Cọc</h3>
               <p>Bảo vệ tiền cọc an toàn cho cả hai bên</p>
@@ -231,30 +717,194 @@
     </div>
   </section>
 
+  <section class="how-it-works">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Quy Trình Hoạt Động</h2>
+        <p>Chỉ với 3 bước đơn giản, bạn có thể tìm được căn hộ phù hợp với nhu cầu của mình</p>
+      </div>
+      <div class="steps">
+        <div class="step-item" data-aos="fade-up">
+          <div class="step-number">1</div>
+          <h3>Tạo Tài Khoản</h3>
+          <p>Đăng ký tài khoản với thông tin cá nhân và xác thực danh tính của bạn</p>
+        </div>
+        <div class="step-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="step-number">2</div>
+          <h3>Tìm Kiếm</h3>
+          <p>Tìm kiếm căn hộ phù hợp với tiêu chí của bạn thông qua bộ lọc thông minh</p>
+        </div>
+        <div class="step-item" data-aos="fade-up" data-aos-delay="400">
+          <div class="step-number">3</div>
+          <h3>Kết Nối</h3>
+          <p>Liên hệ trực tiếp với chủ nhà và hoàn tất thủ tục thuê nhà</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Khách Hàng Nói Gì?</h2>
+        <p>Những đánh giá từ khách hàng đã sử dụng dịch vụ của chúng tôi</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card" data-aos="fade-up">
+          <div class="testimonial-content">
+            "Tôi đã tìm được căn hộ ưng ý chỉ sau 2 ngày sử dụng ứng dụng. Quy trình rất đơn giản và chuyên nghiệp."
+          </div>
+          <div class="testimonial-author">
+            <img src="https://i.pravatar.cc/150?img=1" alt="Nguyễn Văn A" class="author-avatar">
+            <div class="author-info">
+              <h4>Nguyễn Văn Toàn</h4>
+              <p>Người thuê nhà</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="testimonial-content">
+            "Là chủ nhà, tôi rất hài lòng với cách HoHo xác thực người thuê. Giúp tôi an tâm hơn khi cho thuê."
+          </div>
+          <div class="testimonial-author">
+            <img src="https://i.pravatar.cc/150?img=2" alt="Trần Thị B" class="author-avatar">
+            <div class="author-info">
+              <h4>Trần Thị Hồng</h4>
+              <p>Chủ nhà</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="testimonial-content">
+            "Hệ thống thanh toán an toàn và minh bạch. Tôi không còn lo lắng về vấn đề tiền cọc nữa."
+          </div>
+          <div class="testimonial-author">
+            <img src="https://i.pravatar.cc/150?img=3" alt="Lê Văn C" class="author-avatar">
+            <div class="author-info">
+              <h4>Lê Văn Huy</h4>
+              <p>Người thuê nhà</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content" data-aos="fade-up">
+        <h2>Bắt Đầu Ngay Hôm Nay</h2>
+        <p>Tải ứng dụng HoHo và trải nghiệm nền tảng kết nối thuê nhà thông minh</p>
+        <div class="cta-buttons">
+          <a download href="https://storage.googleapis.com/thach-personal.appspot.com/app-release.apk" class="store-button" data-aos="fade-up" data-aos-delay="200">
+            <i class="fab fa-google-play"></i>
+            Google Play
+          </a>
+          <a download href="https://storage.googleapis.com/thach-personal.appspot.com/app-release.apk" class="store-button" data-aos="fade-up" data-aos-delay="400">
+            <i class="fab fa-apple"></i>
+            App Store
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="contact-section">
     <div class="container">
-      <h2>Liên Hệ Với Chúng Tôi</h2>
-      <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
+      <h2 data-aos="fade-up">Liên Hệ Với Chúng Tôi</h2>
+      <p data-aos="fade-up" data-aos-delay="200">Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
       
       <div class="contact-grid">
-        <div class="contact-item">
+        <div class="contact-item" data-aos="fade-up">
           <i class="fas fa-phone"></i>
           <a href="tel:+84123456789">+84 123 456 789</a>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-aos="fade-up" data-aos-delay="200">
           <i class="fas fa-envelope"></i>
           <a href="mailto:contact@homesweethome.com">contact@homesweethome.com</a>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-aos="fade-up" data-aos-delay="400">
           <i class="fab fa-facebook"></i>
           <a href="https://www.facebook.com/profile.php?id=61572200970129" target="_blank">HoHo Home Sweet Home</a>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-aos="fade-up" data-aos-delay="600">
           <i class="fab fa-instagram"></i>
           <a href="https://www.threads.net/@hoho_home201" target="_blank">@hoho_home201</a>
         </div>
       </div>
     </div>
   </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3>HoHo Home Sweet Home</h3>
+          <p>Nền tảng kết nối thuê nhà thông minh hàng đầu Việt Nam. Chúng tôi cam kết mang đến trải nghiệm thuê nhà an toàn và tiện lợi nhất cho người dùng.</p>
+          <div class="social-links">
+            <a href="https://www.facebook.com/profile.php?id=61572200970129"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.threads.net/@hoho_home201"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Dịch Vụ</h4>
+          <ul>
+            <li><a href="#">Tìm Nhà</a></li>
+            <li><a href="#">Đăng Tin</a></li>
+            <li><a href="#">Xác Thực</a></li>
+            <li><a href="#">Bảo Hiểm</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Công Ty</h4>
+          <ul>
+            <li><a href="#">Về Chúng Tôi</a></li>
+            <li><a href="#">Tuyển Dụng</a></li>
+            <li><a href="#">Đối Tác</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Hỗ Trợ</h4>
+          <ul>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Chính Sách</a></li>
+            <li><a href="#">Điều Khoản</a></li>
+            <li><a href="#">Liên Hệ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 HoHo Home Sweet Home. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100
+    });
+
+    // Add animation for statistics numbers
+    const stats = document.querySelectorAll('.stat-number');
+    
+    const observerCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.5
+    });
+
+    stats.forEach(stat => observer.observe(stat));
+  </script>
 </body>
 </html>
