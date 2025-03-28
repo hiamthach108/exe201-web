@@ -16,6 +16,18 @@ export const getGoogleAuthUrl = async (redirect: string): Promise<IGoogleAuthUrl
   }
 };
 
+export const loginWithEmail = async (data: { email: string; password: string }): Promise<IVerifyTokenResponse> => {
+  try {
+    const response = await httpRequest.post('/auth/login', {
+      ...data,
+      authType: AuthEnum.EMAIL,
+    });
+    return response;
+  } catch (error) {
+    throw new Error(error as any);
+  }
+};
+
 export const verifyToken = async (localToken: string): Promise<IVerifyTokenResponse> => {
   try {
     const response: IVerifyTokenResponse = await httpRequest.get('/auth/verify-token', {
@@ -91,6 +103,16 @@ export const useLogoutMutation = (options?: UseMutationOptions<boolean, unknown,
   return useMutation({
     mutationKey: ['logout'],
     mutationFn: logout,
+    ...options,
+  });
+};
+
+export const useLoginWithEmailMutation = (
+  options?: UseMutationOptions<IVerifyTokenResponse, unknown, { email: string; password: string }, unknown>,
+) => {
+  return useMutation({
+    mutationKey: ['loginWithEmail'],
+    mutationFn: loginWithEmail,
     ...options,
   });
 };
