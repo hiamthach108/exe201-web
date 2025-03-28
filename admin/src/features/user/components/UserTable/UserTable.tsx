@@ -1,5 +1,6 @@
+import { UserStatusEnum } from '@/common/enum/user';
 import { IPagination, NextUIColor, TableHeaderItem } from '@/common/types';
-import { HouseStatusEnum, IHouse, useGetHouses } from '@/features/house'; // Updated imports
+import { IUser, useGetUsers } from '@/features/user';
 import {
   Button,
   Chip,
@@ -18,47 +19,36 @@ import {
   TableRow,
   User,
 } from '@nextui-org/react';
-import get from 'lodash/get';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { CiImageOff } from 'react-icons/ci';
 import { IoIosSearch } from 'react-icons/io';
-import { RiPencilLine, RiDeleteBinLine } from 'react-icons/ri';
 import { TbAdjustmentsHorizontal, TbSortAscending } from 'react-icons/tb';
 
-const statusColorMap: Record<HouseStatusEnum, NextUIColor> = {
-  [HouseStatusEnum.Archived]: 'success',
-  [HouseStatusEnum.Pending]: 'warning',
-  [HouseStatusEnum.Approved]: 'primary',
-  [HouseStatusEnum.Rejected]: 'danger',
-  [HouseStatusEnum.Deleted]: 'danger',
+const statusColorMap: Record<UserStatusEnum, NextUIColor> = {
+  [UserStatusEnum.NotVerified]: 'warning',
+  [UserStatusEnum.Active]: 'success',
+  [UserStatusEnum.Disabled]: 'danger',
 };
 
-export default function HouseTable({
-  onChangeData,
-  onDelete,
-  onEdit,
-}: {
-  onChangeData?: (data: IPagination<IHouse>) => void;
-  onDelete?: (ids: string[]) => void;
-  onEdit?: (data: IHouse) => void;
-}) {
+export default function UserTable({ onChangeData }: { onChangeData?: (data: IPagination<IUser>) => void }) {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
-  const [filter, setFilter] = useState<Partial<IHouse>>({ name: '' });
+  const [filter, setFilter] = useState<Partial<IUser>>({ fullName: '' });
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>();
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<string>([]));
 
   const columns: TableHeaderItem[] = useMemo(
     () => [
-      { key: 'name', label: 'Name', sortable: true },
-      { key: 'description', label: 'Description' },
+      { key: 'fullName', label: 'Name', sortable: true },
+      { key: 'email', label: 'Email', sortable: true },
+      { key: 'phone', label: 'Phone' },
       { key: 'status', label: 'Status' },
-      { key: 'actions', label: 'Actions' },
+      { key: 'lastLogin', label: 'Last Login', sortable: true },
+      { key: 'createdAt', label: 'Created At', sortable: true },
     ],
     [],
   );
 
-  const { data: houses, isFetching } = useGetHouses({
+  const { data: users, isFetching } = useGetUsers({
     page: page - 1,
     pageSize,
     filter,
@@ -67,81 +57,59 @@ export default function HouseTable({
   });
 
   useEffect(() => {
-    if (onChangeData && houses) {
-      onChangeData(houses.data);
+    if (onChangeData && users) {
+      onChangeData(users);
     }
-  }, [houses, onChangeData]);
+  }, [users, onChangeData]);
 
   useEffect(() => setPage(1), [filter, pageSize]);
 
-  const renderCell = useCallback(
-    (house: IHouse, columnKey: keyof IHouse | 'actions') => {
-      const cellValue = house[columnKey as keyof IHouse];
-      switch (columnKey) {
-        case 'name':
-          return (
-            <User
-              className="min-w-48 justify-start"
-              classNames={{ name: 'line-clamp-2' }}
-              avatarProps={{
-                radius: 'lg',
-                size: 'lg',
-                src: get(house.metadata, 'thumbnail', ''),
-                className: 'flex-shrink-0',
-                fallback: <CiImageOff />,
-              }}
-              name={cellValue}
-            />
-          );
-        case 'status':
-          return (
-            <Chip className="capitalize" color={statusColorMap[house.status]} size="sm" variant="flat">
+  const renderCell = useCallback((user: IUser, columnKey: keyof IUser) => {
+    const cellValue = user[columnKey];
+    switch (columnKey) {
+      case 'fullName':
+        return (
+          <User
+            className="min-w-48 justify-start"
+            classNames={{ name: 'line-clamp-2' }}
+            avatarProps={{
+              radius: 'lg',
+              size: 'lg',
+              src: user.avatar,
+              className: 'flex-shrink-0',
+            }}
+            name={cellValue}
+          />
+        );
+      case 'status':
+        return (
+          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+            {
               {
-                {
-                  [HouseStatusEnum.Archived]: 'Archived',
-                  [HouseStatusEnum.Pending]: 'Pending',
-                  [HouseStatusEnum.Approved]: 'Approved',
-                  [HouseStatusEnum.Rejected]: 'Rejected',
-                  [HouseStatusEnum.Deleted]: 'Deleted',
-                }[house.status]
-              }
-            </Chip>
-          );
-        case 'actions':
-          return (
-            <div className="flex justify-center gap-x-3">
-              <Button
-                isIconOnly
-                variant="flat"
-                color="warning"
-                startContent={<RiPencilLine size={16} />}
-                onClick={() => onEdit?.(house)}
-              />
-              <Button
-                isIconOnly
-                variant="flat"
-                color="danger"
-                startContent={<RiDeleteBinLine size={16} />}
-                onClick={() => onDelete?.([...selectedKeys] as string[])}
-              />
-            </div>
-          );
-        default:
-          return cellValue;
-      }
-    },
-    [onDelete, onEdit, selectedKeys],
-  );
+                [UserStatusEnum.NotVerified]: 'Not Verified',
+                [UserStatusEnum.Active]: 'Active',
+                [UserStatusEnum.Disabled]: 'Disabled',
+              }[user.status]
+            }
+          </Chip>
+        );
+      case 'lastLogin':
+      case 'createdAt':
+        return cellValue ? new Date(cellValue).toLocaleString() : '';
+      default:
+        return cellValue;
+    }
+  }, []);
 
   return (
     <>
       <div className="flex justify-between">
         <div className="flex items-end gap-3">
           <Input
-            value={filter.name}
-            onChange={(e) => setFilter((filter: any) => ({ ...filter, name: e.target.value }))}
+            value={filter.fullName}
+            onChange={(e) => setFilter((filter: any) => ({ ...filter, fullName: e.target.value }))}
             className="w-fit"
-            placeholder="Search..."
+            placeholder="Search by name..."
             endContent={<IoIosSearch size={16} className="text-default-400" />}
           />
           <Button
@@ -171,6 +139,7 @@ export default function HouseTable({
             <SelectItem key="5">5</SelectItem>
             <SelectItem key="10">10</SelectItem>
             <SelectItem key="15">15</SelectItem>
+            <SelectItem key="20">20</SelectItem>
           </Select>
         </div>
       </div>
@@ -183,9 +152,9 @@ export default function HouseTable({
         onSelectionChange={(keys) => keys instanceof Set && setSelectedKeys(keys)}
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
-        aria-label="House table with dynamic content"
+        aria-label="User table with dynamic content"
         bottomContent={
-          houses && houses.data.total > 0 ? (
+          users && users.total > 0 ? (
             <div className="flex w-full justify-center gap-6">
               <Pagination
                 isCompact
@@ -193,7 +162,7 @@ export default function HouseTable({
                 showShadow
                 color="primary"
                 page={page}
-                total={Math.ceil(houses.data.total / pageSize) > 0 ? Math.ceil(houses.data.total / pageSize) : 1}
+                total={Math.ceil(users.total / pageSize) > 0 ? Math.ceil(users.total / pageSize) : 1}
                 onChange={(page) => setPage(page)}
               />
             </div>
@@ -217,10 +186,10 @@ export default function HouseTable({
           loadingContent={<Spinner color="warning" label="Loading..." />}
           emptyContent={'No data'}
         >
-          {houses
-            ? houses.data.data.map((row: IHouse) => (
+          {users
+            ? users.data.map((row: IUser) => (
                 <TableRow key={row.id}>
-                  {(columnKey) => <TableCell>{renderCell(row, columnKey as keyof IHouse)}</TableCell>}
+                  {(columnKey) => <TableCell>{renderCell(row, columnKey as keyof IUser)}</TableCell>}
                 </TableRow>
               ))
             : []}
