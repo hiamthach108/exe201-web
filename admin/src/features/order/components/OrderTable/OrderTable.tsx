@@ -107,7 +107,7 @@ export default function OrderTable({
         case 'createdAt':
           return cellValue ? new Date(cellValue as string).toLocaleString() : '';
         case 'amount':
-          return cellValue ? `$${Number(cellValue).toLocaleString()}` : '';
+          return cellValue ? `${Number(cellValue).toLocaleString()}đ` : '';
         default:
           return cellValue ? String(cellValue) : '';
       }
